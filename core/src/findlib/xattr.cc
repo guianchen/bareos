@@ -60,6 +60,10 @@
 #include "find.h"
 #include "include/jcr.h"
 
+static std::string error_message_disabling_xattributes
+                   {_("Disabling restore of XATTRs on this filesystem, "
+                      "not supported. Current file: \"%s\"\n")};
+
 #if !defined(HAVE_XATTR)
 /**
  * Entry points when compiled without support for XATTRs or on an unsupported platform.
@@ -387,6 +391,8 @@ static bxattr_exit_code aix_build_xattr_streams(JobControlRecord *jcr,
           */
          xattr_data->flags &= ~BXATTR_FLAG_SAVE_NATIVE;
          retval = bxattr_exit_ok;
+         Mmsg1(jcr->errmsg, error_message_disabling_xattributes.c_str(), xattr_data->last_fname);
+         Dmsg1(100, error_message_disabling_xattributes.c_str(), xattr_data->last_fname);
          goto bail_out;
       default:
          Mmsg2(jcr->errmsg,
@@ -653,6 +659,9 @@ static bxattr_exit_code aix_parse_xattr_streams(JobControlRecord *jcr,
              * change from one filesystem to another.
              */
             xattr_data->flags &= ~BXATTR_FLAG_RESTORE_NATIVE;
+            retval = bxattr_exit_ok;
+            Mmsg1(jcr->errmsg, error_message_disabling_xattributes.c_str(), xattr_data->last_fname);
+            Dmsg1(100, error_message_disabling_xattributes.c_str(), xattr_data->last_fname);
             goto bail_out;
          default:
             Mmsg2(jcr->errmsg,
@@ -1180,6 +1189,8 @@ static bxattr_exit_code generic_build_xattr_streams(JobControlRecord *jcr,
           */
          xattr_data->flags &= ~BXATTR_FLAG_SAVE_NATIVE;
          retval = bxattr_exit_ok;
+         Mmsg1(jcr->errmsg, error_message_disabling_xattributes.c_str(), xattr_data->last_fname);
+         Dmsg1(100, error_message_disabling_xattributes.c_str(), xattr_data->last_fname);
          goto bail_out;
       default:
          Mmsg2(jcr->errmsg,
@@ -1456,6 +1467,9 @@ static bxattr_exit_code generic_parse_xattr_streams(JobControlRecord *jcr,
              * change from one filesystem to another.
              */
             xattr_data->flags &= ~BXATTR_FLAG_RESTORE_NATIVE;
+            retval = bxattr_exit_ok;
+            Mmsg1(jcr->errmsg, error_message_disabling_xattributes.c_str(), xattr_data->last_fname);
+            Dmsg1(100, error_message_disabling_xattributes.c_str(), xattr_data->last_fname);
             goto bail_out;
          default:
             Mmsg2(jcr->errmsg,
@@ -2074,6 +2088,8 @@ static bxattr_exit_code tru64_build_xattr_streams(JobControlRecord *jcr,
           */
          xattr_data->flags &= ~BXATTR_FLAG_SAVE_NATIVE;
          retval = bxattr_exit_ok;
+         Mmsg2(jcr->errmsg, error_message_disabling_xattributes.c_str(), xattr_data->last_fname);
+         Dmsg2(100, error_message_disabling_xattributes.c_str(), xattr_data->last_fname);
          goto bail_out;
       default:
          Mmsg2(jcr->errmsg,
@@ -2323,7 +2339,9 @@ static bxattr_exit_code tru64_parse_xattr_streams(JobControlRecord *jcr,
           * change from one filesystem to another.
           */
          xattr_data->flags &= ~BXATTR_FLAG_RESTORE_NATIVE;
-         retval = bxattr_exit_ok;
+         retval = bxattr_exit_error;
+         Mmsg2(jcr->errmsg, error_message_disabling_xattributes.c_str(), xattr_data->last_fname);
+         Dmsg2(100, error_message_disabling_xattributes.c_str(), xattr_data->last_fname);
          goto bail_out;
       default:
          Mmsg2(jcr->errmsg,
@@ -3870,7 +3888,7 @@ bxattr_exit_code BuildXattrStreams(JobControlRecord *jcr,
       xattr_data->current_dev = ff_pkt->statp.st_dev;
    }
 
-   if ((xattr_data->flags & BXATTR_FLAG_SAVE_NATIVE) && os_parse_xattr_streams) {
+   if ((xattr_data->flags & BXATTR_FLAG_SAVE_NATIVE) && os_build_xattr_streams) {
       return os_build_xattr_streams(jcr, xattr_data, ff_pkt);
    } else {
       return bxattr_exit_ok;
