@@ -59,10 +59,11 @@ SET(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 
 
-# enable "make check"
+# enable "make test"
 enable_testing()
 set(CMAKE_CTEST_COMMAND ctest -V)
-add_custom_target(check COMMAND ${CMAKE_CTEST_COMMAND})
+include( CTest )
+
 
 
 # run git-info to collect sourcecode info
@@ -210,8 +211,8 @@ SET(CMAKE_SKIP_BUILD_RPATH  FALSE)
 
 # when building, don't use the install RPATH already
 # (but later on when installing)
-#SET(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
-SET(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
+SET(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
+#SET(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
 
 #SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${INSTALL_LIB_DIR}")
 #SET(CMAKE_INSTALL_RPATH "/${INSTALL_LIB_DIR}")
