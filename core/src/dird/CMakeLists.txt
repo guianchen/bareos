@@ -90,11 +90,11 @@ ELSE()
 ENDIF()
 
 
-add_test(NAME bareos-dir.xc COMMAND bareos-dir -xc -c ../../../src/defaultconfigs/)
-add_test(NAME bareos-dir.xs COMMAND bareos-dir -xs -c ../../../src/defaultconfigs/)
+add_test(NAME bareos-dir.xc COMMAND bareos-dir -xc -c ${PROJECT_SOURCE_DIR}/src/defaultconfigs/)
+add_test(NAME bareos-dir.xs COMMAND bareos-dir -xs -c ${PROJECT_SOURCE_DIR}/src/defaultconfigs/)
 
-add_test(NAME bareos-dir.xc-d1000 COMMAND bareos-dir -d1000 -xc -c ../../../src/defaultconfigs/)
-add_test(NAME bareos-dir.xs-d1000 COMMAND bareos-dir -d1000 -xs -c ../../../src/defaultconfigs/)
+add_test(NAME bareos-dir.xc-d1000 COMMAND bareos-dir -d1000 -xc -c ${PROJECT_SOURCE_DIR}/src/defaultconfigs/)
+add_test(NAME bareos-dir.xs-d1000 COMMAND bareos-dir -d1000 -xs -c ${PROJECT_SOURCE_DIR}/src/defaultconfigs/)
 
 
 add_executable(bareos-dbcheck ${DBCHKSRCS})

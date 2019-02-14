@@ -2,10 +2,10 @@ BasedOnStyle: Google
 Language: Cpp
 Standard: Cpp11
 BreakBeforeBraces: Custom
-BraceWrapping: 
+BraceWrapping:
    AfterFunction: true
    AfterEnum: true
-ColumnLimit: 111
+ColumnLimit: 80
 Cpp11BracedListStyle: true
 AlignConsecutiveAssignments: true
 AlignTrailingComments: true
