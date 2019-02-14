@@ -31,7 +31,7 @@ export default {
     }
   },
   methods: {
-
+    
   },
   mounted () {
     this.$refs.xterm.term.write('* ')
