@@ -2,7 +2,6 @@
 
 CONFIG_LIB=@scriptdir@/bareos-config-lib.sh
 DIR_CFG=${BAREOS_CONFIG_DIR:-@confdir@}
-DIR_SCRIPTS=@scriptdir@
 DBCHECK="@sbindir@/bareos-dbcheck -c ${DIR_CFG} -B"
 AWK="@AWK@"
 
@@ -35,7 +34,7 @@ XXX_REPLACE_WITH_CLIENT_MONITOR_PASSWORD_XXX \
 XXX_REPLACE_WITH_STORAGE_MONITOR_PASSWORD_XXX \
 "
 
-os_type=`uname -s`
+os_type=$(uname -s)
 
 is_function()
 {

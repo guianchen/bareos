@@ -89,13 +89,21 @@ ELSE()
    target_link_libraries(bareos-dir ${BAREOS_DIR_LIBRARIES})
 ENDIF()
 
+add_test(NAME bareos-dir.-t COMMAND bareos-dir -t -c ${PROJECT_SOURCE_DIR}/src/defaultconfigs/)
 
-add_test(NAME bareos-dir.xc COMMAND bareos-dir -xc -c ${PROJECT_SOURCE_DIR}/src/defaultconfigs/)
-add_test(NAME bareos-dir.xs COMMAND bareos-dir -xs -c ${PROJECT_SOURCE_DIR}/src/defaultconfigs/)
+#add_test(NAME bareos-dir.xc COMMAND bareos-dir -xc -c ${PROJECT_SOURCE_DIR}/src/defaultconfigs/)
+#add_test(NAME bareos-dir.xs COMMAND bareos-dir -xs -c ${PROJECT_SOURCE_DIR}/src/defaultconfigs/)
 
-add_test(NAME bareos-dir.xc-d1000 COMMAND bareos-dir -d1000 -xc -c ${PROJECT_SOURCE_DIR}/src/defaultconfigs/)
-add_test(NAME bareos-dir.xs-d1000 COMMAND bareos-dir -d1000 -xs -c ${PROJECT_SOURCE_DIR}/src/defaultconfigs/)
+#add_test(NAME bareos-dir.xc-d1000 COMMAND bareos-dir -d1000 -xc -c ${PROJECT_SOURCE_DIR}/src/defaultconfigs/)
+#add_test(NAME bareos-dir.xs-d1000 COMMAND bareos-dir -d1000 -xs -c ${PROJECT_SOURCE_DIR}/src/defaultconfigs/)
 
+
+add_test(NAME create-db COMMAND  sh -x ${PROJECT_SOURCE_DIR}/src/cats/create_bareos_database)
+set_tests_properties(create-db PROPERTIES FIXTURES_SETUP DB)
+add_test(NAME drop-db COMMAND  sh -x ${PROJECT_SOURCE_DIR}/src/cats/drop_bareos_database)
+set_tests_properties(drop-db  PROPERTIES FIXTURES_CLEANUP DB)
+
+set_tests_properties(bareos-dir.-t PROPERTIES FIXTURES_REQUIRED DB)
 
 add_executable(bareos-dbcheck ${DBCHKSRCS})
 SET(DBCHECK_LIBRARIES bareossql bareos bareosfind bareoscats)
