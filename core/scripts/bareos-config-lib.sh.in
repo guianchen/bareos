@@ -1,8 +1,8 @@
 #!/bin/sh
 
-CONFIG_LIB=@scriptdir@/bareos-config-lib.sh
-DIR_CFG=${BAREOS_CONFIG_DIR:-@confdir@}
-DBCHECK="@sbindir@/bareos-dbcheck -c ${DIR_CFG} -B"
+CONFIG_LIB=@PROJECT_SOURCE_DIR@/scripts/bareos-config-lib.sh
+DIR_CFG=${BAREOS_CONFIG_DIR:-@PROJECT_SOURCE_DIR@/src/defaultconfigs/}
+DBCHECK="@PROJECT_BINARY_DIR@/src/dird/bareos-dbcheck -c ${DIR_CFG} -B"
 AWK="@AWK@"
 
 SEC_GROUPS="tape disk"

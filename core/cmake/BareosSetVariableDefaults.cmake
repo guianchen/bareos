@@ -90,7 +90,7 @@ ENDIF()
 
 # backenddir
 IF(NOT DEFINED backenddir)
-   set(backenddir ${CMAKE_INSTALL_FULL_LIBDIR}/${CMAKE_PROJECT_NAME}/backends)
+  set(backenddir ${PROJECT_BINARY_DIR}/src/cats/)
 ENDIF()
 
 # scriptdir
@@ -429,6 +429,7 @@ IF(NOT client-only)
 
    # set first entry as default db backend
    LIST(GET db_backends 0 default_db_backend)
+   set (DEFAULT_DB_TYPE ${default_db_backend})
 endif()
 
 # tcp-wrappers
